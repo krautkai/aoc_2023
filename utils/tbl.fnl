@@ -164,6 +164,24 @@
     (table.insert val-list v ))
     val-list)
 
+(fn sort-table-by-value [t]
+  (var sorted [])
+  (let [ks (keys t)]
+    (var ks-sorted (acopy ks))
+    (table.sort ks-sorted)
+    (each [k v (pairs ks-sorted)]
+      (table.insert sorted (. t v)))
+    sorted))
+
+
+(fn merge-tables [table1 table2]
+  (var combined [])
+    (each [k v (pairs table1)]
+      (table.insert combined k v))
+    (each [k v (pairs table2)]
+      (table.insert combined k v))
+  combined)
+
 {
   : aeq
   : acopy
@@ -191,4 +209,6 @@
   : last
   : keys
   : mvalues
+  : sort-table-by-value
+  : merge-tables 
 }

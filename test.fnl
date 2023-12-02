@@ -19,13 +19,19 @@
       (table.insert combined k v))
   combined)
 
+(fn acopy [t]
+  (var r {})
+  (each [_ v (ipairs t)]
+    (table.insert r v))
+  r)
+
 (fn sort-table-by-value [t]
-  (var sorted {})
-  (let [ks (keys t) ks-sort (table.sort ks)]
-    (print (. ks 2))
-    (each [k v (pairs ks-sort)]
-      (table.insert sorted v (. t v))
-    )
+  (var sorted [])
+  (let [ks (keys t)]
+    (var ks-sorted (acopy ks))
+    (table.sort ks-sorted)
+    (each [k v (pairs ks-sorted)]
+      (table.insert sorted (. t v)))
     sorted))
 
 (fn parse-digits [line]
@@ -41,13 +47,14 @@
             (do
               (let [(start end) (string.find line v pos) digit (tonumber (string.sub line start end))]
                 (if digit
-                  (table.insert matches start digit)
-                  (table.insert matches start (. digits v)))
+                  (tset matches start digit)
+                  (tset matches start (. digits v)))
                 (set pos (+ start 1))))
             (set done? true)))))
-    (each [k v (pairs (sort-table-by-value matches))]
-      (print k v))
-    matches))
+    (let [matches-sorted (sort-table-by-value matches)]
+    (each [_ v (pairs matches-sorted)]
+      (print v))
+    matches-sorted)))
 
 (parse-digits "two1nine")
 (parse-digits "zoneight234")
