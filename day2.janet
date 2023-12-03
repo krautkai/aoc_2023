@@ -1,14 +1,4 @@
-
-(defn print-table [t]
-  (each row t
-    (print row)))
-
-(defn tonum [n]
-  (int/to-number (int/u64 n)))
-
-(defn print-dict [t]
-  (loop [[letter word] :pairs t]
-  (print letter " : " word)))
+(import ./utils/utils :as utl)
 
 (defn read [path]
   (string/split "\n" (string/trim (slurp path))))
@@ -28,13 +18,13 @@
   (let [el (string/split ", " t)]
     (each round el
       (let [[cnt color] (string/split " " round)]
-      (put dict (string-keys color) (int/to-number (int/u64 cnt))))))
+      (put dict (string-keys color) (utl/tonum cnt)))))
       dict)
 
 
 (defn parse-game [game-data]
   (let [parts (string/split ": " game-data)
-        game-num (tonum((string/split " " (string/trim (parts 0))) 1))
+        game-num (utl/tonum((string/split " " (string/trim (parts 0))) 1))
         game-info (string/split "; " (parts 1))
         rounds (map tab-to-struct game-info)]
     {:game game-num :rounds rounds}))
@@ -49,14 +39,34 @@
           ((set valid? false) (break)))))))
   (= valid? true))
 
+(defn part2 [game]
+(def tab-min @{:red 0 :blue 0 :green 0})
+(let [rounds (game :rounds)]
+    (each tirage rounds
+        (loop [k :keys tirage]
+          (let [val (tirage k) mx (tab-min k)]
+          (if (> val mx)
+          (set (tab-min k) val))))))
+  tab-min)
+
 (defn sum-tab [t]
   (var total 0)
   (each x t
   (set total (+ total (x :game))))
   total)
 
+(defn sum-mult [t]
+  (var total 0)
+  (each x t
+  (var subtotal 1)
+  (loop [[k v] :pairs x]
+    (set subtotal (* v subtotal)))
+    (set total (+ total subtotal)))
+    total)
+
 (defn main [&]
   (let [inp (read "inputs/day2")
         parsed (map parse-game inp)
-        filtered (filter verify parsed)]
-    (print (sum-tab filtered))))
+        filtered (filter verify parsed)
+        minimum (map part2 parsed)]
+    (print "Day2 : " (sum-tab filtered) " " (sum-mult minimum))))
