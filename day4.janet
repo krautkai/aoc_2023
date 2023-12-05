@@ -35,7 +35,7 @@
 
 
 (defn main [&]
-    (let [str (string/split "\n" (slurp "inputs/day4"))
+    (let [str (string/split "\n" (string/trim (slurp "inputs/day4")))
           parsed (mapcat |(peg/match parse-card $) str) 
           # (mapcat f ind & inds) Map a function over every element in an array or tuple and use `array/concat` to concatenate the results.
           #(short-fn arg &opt nam) Shorthand for `fn`. Arguments are given as `$n`, where `n` is the 0-indexed argument of the function. `$` is also an alias for the first (index 0) argument. The `$&` symbol will make the anonymous function variadic if it appears in the body of the function, and can be combined with positional arguments.
