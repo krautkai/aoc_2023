@@ -19,3 +19,9 @@
     (array/push biga (array/slice arr (* i n) (+ (* i n) n ) ))
     (++ i))
     biga)
+  
+(defn intersection [t1 t2]
+    (var inter @[])
+    (each el t1
+        (if (has-value? t2 el) (array/push inter el)))
+        inter)
