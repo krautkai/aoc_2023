@@ -19,11 +19,22 @@
     (set seed (get-new-seed m seed)))
     seed)
 
+(defn determine-seeds [seeds maps]
+  (var sd seeds)
+  (var smaller math/inf)
+  (while (not (empty? sd))
+    (def [start len] (take 2 sd))
+    (set sd (take (- 2 (length sd)) sd))
+    (loop [i :range [0 len]]
+      (def res (proceed (+ start i) maps))
+      (if (< res smaller) (set smaller res))))
+    smaller)
+
 (defn main [&]
     (let [str (slurp "inputs/day5")
           [input] (peg/match parser str)
           maps (input :maps)
           seeds (input :seeds)
           final-seeds (map |(proceed $ maps) seeds)]
-        (pp final-seeds)
-        (print (apply min final-seeds))))
+        (print (apply min final-seeds))
+        (print (determine-seeds seeds maps))))
