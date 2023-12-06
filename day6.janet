@@ -9,13 +9,7 @@
     :main  (* :times :distances)})
 
 (defn possibilites [[time distance]]
-(var pos 0)
-(loop [i :range-to [0 time]]
-    (def v i)
-    (def d (* v (- time i)))
-    (if (> d distance) (++ pos)))
-    pos
-)
+(math/round (math/sqrt (- (* time time) (* 4 distance)))))
 
 (defn main [&]
 (let [str (slurp "inputs/day6")
@@ -23,5 +17,4 @@
     zipped (map tuple times distances)
     input2 (map scan-number (peg/match parser2 str))]
     (print (product (map possibilites zipped)))
-    (print (possibilites [(input2 0) (input2 1)]))
-))
+    (print (possibilites [(input2 0) (input2 1)]))))
