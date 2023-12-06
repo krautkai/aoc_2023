@@ -6,21 +6,17 @@
       :maps (/ (* (some :S)  " map:" :s* (some :range) :s*), array)
       :main (/ (* :seeds (some :maps)), |{:seeds $0 :maps $&})})
 
-(defn create-maps [maps]
-  (var complete @{})
-  (each m maps
-    (let [src (m :src)
-         dest (m :dest)
-         len (m :len)]
-        (var mp @{})
-        (loop [i :range [0 len]]
-          (put complete (+ src i) (+ dest i)))))
-          complete)
+(defn get-new-seed [maps seed]
+  (var sd seed)
+  (loop [[k v] :pairs maps]
+    (if (<= (v :src) sd (- (+ (v :src) (v :len)) 1) )
+    ((set sd (+(v :dest) (- sd (v :src)) )) (break))))
+    sd)
 
 (defn proceed [init-seed maps]
   (var seed init-seed)
   (each m maps
-    (set seed (or (m seed) seed)))
+    (set seed (get-new-seed m seed)))
     seed)
 
 (defn main [&]
@@ -28,6 +24,6 @@
           [input] (peg/match parser str)
           maps (input :maps)
           seeds (input :seeds)
-          analyzed-maps (map create-maps maps)
-          final-seeds (map |(proceed $ analyzed-maps) seeds)]
+          final-seeds (map |(proceed $ maps) seeds)]
+        (pp final-seeds)
         (print (apply min final-seeds))))
