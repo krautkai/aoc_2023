@@ -1,16 +1,23 @@
 (def vals {"2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 "9" 9 "T" 10 "J" 11 "Q" 12 "K" 13 "A" 14})
+(def vals2 {"J" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 "9" 9 "T" 10  "Q" 11 "K" 12 "A" 13})
 
-(defn analyze-hand [hand]
-    (def content (frequencies hand))
+(defn analyze-hand [jokers fc]
+    (def content (frequencies fc))
     (var hd 0)
     (cond
-        (has-value? content 5) (set hd 6)
-        (has-value? content 4) (set hd 5)
-        (and (has-value? content 3) (has-value? content 2)) (set hd 4)
-        (has-value? content 3) (set hd 3)
-        (= 2 (count (fn[x] (= x 2)) (values content))) (set hd 2)
-        (has-value? content 2) (set hd 1)
-        )
+        (has-value? content 5) (set hd 5)
+        (has-value? content 4) (set hd (+ 4 jokers))
+        (and (has-value? content 3) (has-value? content 2)) (set hd 3.5)
+        (has-value? content 3) (set hd (+ 3 jokers))
+        (= 2 (count (fn[x] (= x 2)) (values content))) (set hd (+ 2 (* 1.5 jokers)))
+        (has-value? content 2) (set hd (+ 1 (+ (cond (not ( = 0 jokers)) ( + 1 jokers) 0))))
+        (cond 
+            (= 5 jokers) (set hd 5)
+            (= 4 jokers ) (set hd 5)
+            (= 3 jokers) (set hd 4)
+            (= 2 jokers) (set hd 3)
+            (= 1 jokers) (set hd 1)
+        ))
     hd)
 
 (defn to-table [hand]
@@ -25,14 +32,13 @@
     (def len (length xs))
     (var i 0)
     (while (< i len)
-        (set res (+ res (* (rev i) (math/pow 20 i)))) (++ i))
+        (set res (+ res (* (rev i) (math/pow 15 i)))) (++ i))
     res)
 
 (defn hands [hand bid]
     @{:hand hand
       :bid (scan-number bid)
-      :type (analyze-hand hand)
-      :hand-t (mass (map vals (to-table hand)))})
+      })
 
 (defn custom-comparator [a b]
   (if (= (a :type) (b :type))
@@ -52,9 +58,29 @@
         (set res (+ res (* (+ i 1) (xs i)))) (++ i))
         res)
 
+(defn add-mass [t val part2?]
+    (var n t)
+    (def hand (t :hand))
+    (var jokers 0)
+    (var fc hand)
+    (set jokers 0)
+    (if part2?
+        (and(set jokers (length (string/find-all "J" hand)))
+        (set fc (string/replace-all "J" "" hand))))
+    (def typ (analyze-hand jokers fc))
+    (put n :hand-t (mass (map val (to-table (n :hand)))))
+    (put n :type typ)
+    n)
+
 (defn main [&]
 (let [str (string/split "\n" (string/trim (slurp "inputs/day7")))
       inp (mapcat |(peg/match parser $) str)
-      sted (sort inp custom-comparator)
-      bids (map (fn [x] (get x :bid)) sted)]
-    (print (product-key bids))))
+      inp1 (mapcat |(add-mass $ vals false) inp)
+      sted1 (sort inp1 custom-comparator)
+      bids1 (map (fn [x] (get x :bid)) sted1)
+      
+      inp2 (mapcat |(add-mass $ vals2 true) inp)
+      sted2 (sort inp2 custom-comparator)
+      bids2 (map (fn [x] (get x :bid)) sted2)]
+    (print (product-key bids1))
+    (print (product-key bids2))))
