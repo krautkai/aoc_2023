@@ -26,7 +26,7 @@
         (array/push arr (string/from-bytes c)))
         arr)
 
-(defn mass [xs]
+(defn weight [xs]
     (var res 0)
     (def rev (reverse xs))
     (def len (length xs))
@@ -58,7 +58,7 @@
         (set res (+ res (* (+ i 1) (xs i)))) (++ i))
         res)
 
-(defn add-mass [t val part2?]
+(defn add-weight [t val part2?]
     (var n t)
     (def hand (t :hand))
     (var jokers 0)
@@ -68,18 +68,18 @@
         (and(set jokers (length (string/find-all "J" hand)))
         (set fc (string/replace-all "J" "" hand))))
     (def typ (analyze-hand jokers fc))
-    (put n :hand-t (mass (map val (to-table (n :hand)))))
+    (put n :hand-t (weight (map val (to-table (n :hand)))))
     (put n :type typ)
     n)
 
 (defn main [&]
 (let [str (string/split "\n" (string/trim (slurp "inputs/day7")))
       inp (mapcat |(peg/match parser $) str)
-      inp1 (mapcat |(add-mass $ vals false) inp)
+      inp1 (mapcat |(add-weight $ vals false) inp)
       sted1 (sort inp1 custom-comparator)
       bids1 (map (fn [x] (get x :bid)) sted1)
       
-      inp2 (mapcat |(add-mass $ vals2 true) inp)
+      inp2 (mapcat |(add-weight $ vals2 true) inp)
       sted2 (sort inp2 custom-comparator)
       bids2 (map (fn [x] (get x :bid)) sted2)]
     (print (product-key bids1))

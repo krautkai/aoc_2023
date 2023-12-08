@@ -9,13 +9,13 @@
        :main (any (* (any :D) :number))})
 
 (def symb-parser
-    ~{:SYMB (+ :d ".")
-      :symb (if-not :SYMB 1)
-      :main  (* (any :SYMB) :symb)})
+    ~{:notsymb (+ :d ".")
+      :symb (if-not :notsymb 1)
+      :main  (* (any :notsymb) :symb)})
 
 (defn get-neighbors [x start end]
-  (defn clamp [i] (max 0 (min i (length x))))
-  (slice x (clamp start) (clamp (+ end 1))))
+  (defn neigh [i] (max 0 (min i (length x))))
+  (slice x (neigh start) (neigh (+ end 1))))
   
 (defn has-symbols [{:line line :col column :endcol endcol} input]
     (def lines (get-neighbors input (- line 1) (+ line 1)))
