@@ -1,5 +1,5 @@
 (def parser
-     ~{:navigation (/ (* (<- (repeat 3 :a)) " = (" (<-(repeat 3 :a)) ", " (<-(repeat 3 :a)) ")" :s*), array)
+     ~{:navigation (/ (* (<- (repeat 3 :w)) " = (" (<-(repeat 3 :w)) ", " (<-(repeat 3 :w)) ")" :s*), array)
        :instruction  (* (<-(some :a)) :s*)
        :main (/ (* :instruction (some :navigation)),|{:instruction $0 :maps $&})})
 
@@ -23,9 +23,18 @@
             (if (= position "ZZZ") (break)))
         count)
 
+(defn inputs2 [x]
+    (def int @[])
+    (each el x 
+        (if (= 65 (el 2)) (array/push int el)))
+        int)
+
+(defn check-finish [x]
+    (all truthy? (map |(= 90 ($ 2)) x)))
+
 (defn main [&]
-(let [str  (slurp "inputs/day8")
+(let [str  (slurp "inputs/test8")
       [parsed] (peg/match parser str)
-      maps (to-tables (parsed :maps))]
-#(pp str)
+      maps (to-tables (parsed :maps))
+      starts (inputs2 (keys maps))]
 (print (to-zzz maps (parsed :instruction)))))
