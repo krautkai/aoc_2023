@@ -9,8 +9,8 @@
     (put tab (mp 0) {:left (mp 1) :right (mp 2)}))
     tab)
 
-(defn to-zzz [xs pattern] #L = 76, R = 82 :)
-    (var position "AAA")
+(defn to-end [xs pattern start end?] #L = 76, R = 82 :)
+    (var position start)
     (def len (length pattern))
     (var i 0)
     (var count 0)
@@ -20,21 +20,20 @@
             (= 82 (pattern i)) (set position ((xs position) :right)))
             (set i (% (++ i) len))
             (++ count)
-            (if (= position "ZZZ") (break)))
+            (if (end? position) (break)))
         count)
 
 (defn inputs2 [x]
     (def int @[])
     (each el x 
-        (if (= 65 (el 2)) (array/push int el)))
+        (if (= 65 (el 2)) (array/push int el))) #A = 65
         int)
 
-(defn check-finish [x]
-    (all truthy? (map |(= 90 ($ 2)) x)))
-
 (defn main [&]
-(let [str  (slurp "inputs/test8")
+(let [str (slurp "inputs/day8")
       [parsed] (peg/match parser str)
       maps (to-tables (parsed :maps))
-      starts (inputs2 (keys maps))]
-(print (to-zzz maps (parsed :instruction)))))
+      starts (inputs2 (keys maps))
+      ends (map |(to-end maps (parsed :instruction) $ (fn [x] (= 90 (x 2)))) starts)] #X = 90
+(print (to-end maps (parsed :instruction) "AAA" (fn [x] (= x "ZZZ"))))
+(pp (reduce math/lcm 1 ends))))
