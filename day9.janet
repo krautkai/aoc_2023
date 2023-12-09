@@ -10,19 +10,10 @@
       (array/push res (- (arr (inc i)) (arr i)))))
       res)
 
-(defn same-elems [xs]
-    (if (empty? xs) true
-    (let [fst (first xs)]
-        (all |(= fst $)xs)
-    )))
-
-(defn all-zeros [xs]
-    (all zero? xs))
-
 (defn get-next [f op xs]
     (var res 0)
     (def df (diff xs))
-    (if (all-zeros df) (set res (f xs))
+    (if (all zero? df) (set res (f xs))
         (set res (op (f xs) (get-next f op df))))
     res)
 
