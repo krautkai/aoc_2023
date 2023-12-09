@@ -19,13 +19,14 @@
 (defn all-zeros [xs]
     (all zero? xs))
 
-(defn get-next [xs]
+(defn get-next [f op xs]
     (var res 0)
     (def df (diff xs))
-    (if (all-zeros df) (set res (last xs))
-        (set res (+ (get-next df) (last xs))))
+    (if (all-zeros df) (set res (f xs))
+        (set res (op (f xs) (get-next f op df))))
     res)
 
 (defn main [&]
     (let [[input] (peg/match parser (slurp "inputs/day9"))]
-    (pp (sum(map get-next (input :lines))))))
+    (pp (sum (map |(get-next last + $) (input :lines))))
+    (pp (sum (map |(get-next first - $) (input :lines))))))
