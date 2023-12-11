@@ -1,7 +1,6 @@
 (defn part [l col]
     @{:line (- l 1)
-     :col (- col 1)
-    })
+     :col (- col 1)})
 
 (def parser 
      ~{:galaxy (/ (* (line) (column)  "#") , part)
@@ -13,10 +12,8 @@
         (var @{:line line :col col} g)
         (set line (+ line (* coeff (length (filter |( < $ line) emplin)))))
         (set col (+ col (* coeff (length (filter |( < $ col) empcol)))))
-        (array/push new-tab {:col col :line line})
-    )
-    new-tab
-    )
+        (array/push new-tab {:col col :line line}))
+    new-tab)
 
 (defn manhattan [a b]
     (+ (math/abs (- (a :col) (b :col))) (math/abs (- (a :line) (b :line))) ))
@@ -36,10 +33,8 @@
     (def len (length galaxies))
     (loop [i :range [0 (- len 1)]]
         (loop [j :range [(+ i 1) len]]
-            (array/push arr (manhattan (galaxies i) (galaxies j)))
-        ))
-    arr
-    )
+            (array/push arr (manhattan (galaxies i) (galaxies j)))))
+    arr)
 
 (defn main [&]
     (let [input (slurp "inputs/day11")
@@ -49,5 +44,4 @@
           updated-galaxies (update-galaxies parsed emptylines emptycol 1)
           updated-galaxies2 (update-galaxies parsed emptylines emptycol 999999)]
     (print (sum (get-all-distances updated-galaxies)))
-    (print (sum (get-all-distances updated-galaxies2)))
-    ))
+    (print (sum (get-all-distances updated-galaxies2)))))
