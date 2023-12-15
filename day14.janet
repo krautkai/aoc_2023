@@ -40,4 +40,4 @@ t)
     (let [input (string/split "\n" (string/trim (slurp "inputs/day14")))
           parsed (map |(peg/match parser $) input)
           after-moves (do-moves parsed)]
-    (print (part1 after-moves))))
+    (print "Day14 : " (part1 after-moves))))

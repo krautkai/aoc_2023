@@ -43,5 +43,4 @@
           res1 (sum calcul)
           cardmap (tabseq [c :in parsed] (c :id) c)
           res2 (sum (map |(score2 $ cardmap) parsed))]
-          (print res1)
-          (print res2)))
+          (print "Day04 : " res1 " " res2)))

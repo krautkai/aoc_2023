@@ -55,5 +55,4 @@
           gears (peg/match gear-parser str)
           valids-map (map-valids valids)
           res2 (sum (map |(has-values $ valids-map) gears))]
-          (print res1)
-          (print res2)))
+          (print "Day03 : " res1 " " res2)))

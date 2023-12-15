@@ -82,5 +82,4 @@
       inp2 (mapcat |(add-weight $ vals2 true) inp)
       sted2 (sort inp2 custom-comparator)
       bids2 (map (fn [x] (get x :bid)) sted2)]
-    (print (product-key bids1))
-    (print (product-key bids2))))
+    (print "Day07 : " (product-key bids1) " " (product-key bids2))))

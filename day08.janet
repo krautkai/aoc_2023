@@ -35,5 +35,4 @@
       maps (to-tables (parsed :maps))
       starts (inputs2 (keys maps))
       ends (map |(to-end maps (parsed :instruction) $ (fn [x] (= 90 (x 2)))) starts)] #X = 90
-(print (to-end maps (parsed :instruction) "AAA" (fn [x] (= x "ZZZ"))))
-(pp (reduce math/lcm 1 ends))))
+(print "Day08 : " (to-end maps (parsed :instruction) "AAA" (fn [x] (= x "ZZZ"))) " " (reduce math/lcm 1 ends))))

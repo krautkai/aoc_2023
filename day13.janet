@@ -40,6 +40,4 @@
 (defn main [&]
     (let [input (string/split "\n\n" (string/trim (slurp "inputs/day13")))
         transposed (map transpose-string input)]
-    (print (sum (map |(compare-symmetry $ 0) input)))
-    (print (sum (map |(compare-symmetry $ 1) input)))
-    ))
+    (print "Day13 : " (sum (map |(compare-symmetry $ 0) input)) " " (sum (map |(compare-symmetry $ 1) input)))))

@@ -26,5 +26,4 @@
     (let [input (string/split "\n" (string/trim(slurp "inputs/day1")))
         line-numbers1 (map |(value $ parser) input)
         line-numbers2 (map |(value $ parser2) input)]
-    (print (sum line-numbers1))
-    (print (sum line-numbers2))))
+    (print "Day01 : " (sum line-numbers1) " " (sum line-numbers2))))

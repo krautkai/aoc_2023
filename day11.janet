@@ -43,5 +43,4 @@
           {:emptycol emptycol :emptylines emptylines} (find-empty parsed (length inp))
           updated-galaxies (update-galaxies parsed emptylines emptycol 1)
           updated-galaxies2 (update-galaxies parsed emptylines emptycol 999999)]
-    (print (sum (get-all-distances updated-galaxies)))
-    (print (sum (get-all-distances updated-galaxies2)))))
+    (print "Day11 : " (sum (get-all-distances updated-galaxies)) " " (sum (get-all-distances updated-galaxies2)))))

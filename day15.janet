@@ -40,5 +40,4 @@
 
 (defn main [&]
     (let [input (string/split ","(string/trim (slurp "inputs/day15")))]
-    (print (sum (map aoc-hash input)))
-    (print (focusing-power (reduce proceed @{} input)))))
+    (print "Day15 : " (sum (map aoc-hash input)) " " (focusing-power (reduce proceed @{} input)))))

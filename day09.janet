@@ -19,5 +19,4 @@
 
 (defn main [&]
     (let [[input] (peg/match parser (slurp "inputs/day9"))]
-    (pp (sum (map |(get-next last + $) (input :lines))))
-    (pp (sum (map |(get-next first - $) (input :lines))))))
+    (print "Day09 : " (sum (map |(get-next last + $) (input :lines))) " " (sum (map |(get-next first - $) (input :lines))))))

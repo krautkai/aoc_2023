@@ -16,5 +16,4 @@
     [{:times times :distances distances}] (peg/match parser str)
     zipped (map tuple times distances)
     input2 (map scan-number (peg/match parser2 str))]
-    (print (product (map possibilites zipped)))
-    (print (possibilites [(input2 0) (input2 1)]))))
+    (print "Day06 : " (product (map possibilites zipped)) " " (possibilites [(input2 0) (input2 1)]))))

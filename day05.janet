@@ -36,5 +36,6 @@
           maps (input :maps)
           seeds (input :seeds)
           final-seeds (map |(proceed $ maps) seeds)]
-        (print (apply min final-seeds))
-        (print (determine-seeds seeds maps))))
+        (print "Day05 : " (apply min final-seeds))
+        #(print (determine-seeds seeds maps))
+        ))

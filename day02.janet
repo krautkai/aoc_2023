@@ -69,5 +69,4 @@
         parsed (map parse-game inp)
         filtered (filter verify parsed)
         minimum (map part2 parsed)]
-    (pp parsed)
-    (print "Day2 : " (sum-tab filtered) " " (sum-mult minimum))))
+    (print "Day02 : " (sum-tab filtered) " " (sum-mult minimum))))
