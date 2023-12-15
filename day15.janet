@@ -33,10 +33,9 @@
 (defn focusing-power [xs]
     (var res 0)
     (loop [[box lens] :pairs xs]
-        (var i 1)
+        (var i 0)
         (each el lens
-            (+= res (* (+ box 1) i (scan-number(el :lens))) )
-            (+= i 1)))
+            (+= res (* (+ box 1) (+= i 1) (scan-number(el :lens))))))
     res)
 
 (defn main [&]
