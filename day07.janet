@@ -65,7 +65,7 @@
     (var fc hand)
     (set jokers 0)
     (if part2?
-        (and(set jokers (length (string/find-all "J" hand)))
+        (do(set jokers (length (string/find-all "J" hand)))
         (set fc (string/replace-all "J" "" hand))))
     (def typ (analyze-hand jokers fc))
     (put n :hand-t (weight (map val (to-table (n :hand)))))

@@ -18,7 +18,7 @@
         (def occupied (map |($ :c) (t (- i 1))))
         (each r rounded
             (if (not(has-value? occupied (r :c)))
-            (and(array/push (t (- i 1)) r) (++ moves))
+            (do(array/push (t (- i 1)) r) (++ moves))
             (array/push new-current r)))
         (each r new-current
             (array/push (t i) r))

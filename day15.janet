@@ -17,7 +17,7 @@
             (set (box boxn) @[@{:label lab :lens len}])
             (let [idx (find-index |(= ($ :label) (params 0)) arr)]
             (if (not(nil? idx))
-                (and(array/remove (box boxn) idx)
+                (do(array/remove (box boxn) idx)
                 (array/insert (box boxn) idx @{:label lab :lens len}))
                 (array/push (box boxn) @{:label lab :lens len})))))
     (let [params (string/split "-" el)
