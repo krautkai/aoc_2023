@@ -1,4 +1,5 @@
-(import ./utils/heapq :as heapq)
+(import ./utils/heap :as heap)
+(import ./utils/cmp :as cmp2)
 
 (def parser 
     ~{:grid (/(* (line)(column) (number :d)), |{:coor [(- $1 1) (- $0 1)] :val $2})
@@ -14,17 +15,15 @@
 
 (defn minimum-heat [start end minsteps maxsteps grid]
     (var mini-heat 0)
-    (var queue @[[0 0 0 0 0]])
-    (def visited @[])
-    (while (not (empty? queue))
-    #(def [heat x y px py] (queue 0))
-    #(array/remove queue 0)
-    (def [heat x y px py] (array/pop queue))
-    (set queue (heapq/heapify queue))
+    (def queue (heap/new (cmp2/by :heat)))
+    (heap/push queue {:heat 0 :x 0 :y 0 :px 0 :py 0})
+    (def visited @{})
+    (while (not (= 0 (heap/length queue)))
+    (def {:heat heat :x x :y y :px px :py py} (heap/pop-min queue))
     (if (= end [x y]) (do (set mini-heat heat)(break)))
-    (if (not(has-value? visited [x y px py]))
+    (if (not(has-key? visited [x y px py]))
     (do
-        (array/push visited [x y px py])
+        (put visited [x y px py] true)
         (each el turns
             (if (and(not (= el [px py]))(not (= el [(- px) (- py)])))
             (do
@@ -39,8 +38,7 @@
                         (+= h (grid [a b]))
                         (if (>= i minsteps)
                         (do
-                            (array/push queue [h a b (el 0) (el 1)])
-                            (set queue (heapq/heapify queue))
+                            (heap/push queue {:heat h :x a :y b :px (el 0) :py (el 1)})
                             )))))))))))
                         mini-heat)
     
@@ -50,4 +48,5 @@
           grid (get-table(peg/match parser input))
           len (- (length (string/split "\n" input)) 1)]
     (print (minimum-heat [0 0] [len len] 1 3 grid))
+    (print (minimum-heat [0 0] [len len] 4 10 grid))
     ))
