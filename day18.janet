@@ -4,7 +4,7 @@
 (def right [1 0])
 
 (def parser 
-    ~{:order (group (* :dir " " (number :d+) " (#" '6 ")"))
+    ~{:order (/ (* :dir " " (number :d+) " (#" 6 ")"), |[$0 $1])
       :dir (/ '1 ,{"R" right "D" down "L" left "U" up})
       :main (some(* :order (? "\n" )))})
       
@@ -24,7 +24,7 @@
     (var area 0)
     (var coor @[@[0 0]])
     (var peri 0)
-    (each [dir dis & more] xs
+    (each [dir dis] xs
         (def previous (array/peek coor))
         (def current @[(+ (previous 0) (* dis (dir 0))) (+ (previous 1) (* dis (dir 1)))])
         (array/push coor current)
